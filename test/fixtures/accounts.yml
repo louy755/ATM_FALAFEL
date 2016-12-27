@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_number: MyString
+  account_type: 1
+  balance: 9.99
+  active: false
+  user_id: 1
+  user: one
+
+two:
+  account_number: MyString
+  account_type: 1
+  balance: 9.99
+  active: false
+  user_id: 1
+  user: two

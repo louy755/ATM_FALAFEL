@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @atm_mach.name %>
+</p>
+
+
+<p>
+  <strong>Address:</strong>
+  <%= @atm_mach.address %>
+</p>
+
+
+
+<%if current_user.account.present? %>
+        <center><h3>Avalable Balance : 
+        <strong><%=number_to_currency(current_user.account.balance.to_f)%> </strong></h3></center>
+      <%else%>
+        <center><h3><strong class="label label-danger text-uppercase "> <%= p "NO Account Associated with This Email " %></strong></h3></center>
+      <%end%>
+    </div>
+  </div>
+</div>
+<div class="row"> 
+  <div class="col-md-8 col-md-offset-3">
+    <% if current_user.user_info.present? %>
+       <center><p><%=link_to 'transactions',  transaction_list_account_path(current_user.account ),class:"btn btn-info btn-lg"%> &nbsp;
+      <%=link_to 'Withdrawal ', new_withdrawal_account_path(current_user.account ),class:"btn btn-danger btn-lg"%> &nbsp;
+      <%=link_to 'Add Deposit',  new_deposit_account_path(current_user.account),class:"btn btn-success btn-lg"%> &nbsp;
+       <%= link_to 'Information',edit_user_info_path(current_user.user_info.id,atm_no: @atm_mach.id),class:"btn btn-info btn-lg"%> &nbsp;</p></center>
+        <center><%= link_to 'Avalable ATMS', atm_maches_path ,class:"btn btn-info btn-lg" %></center>
+    <%else%> 
+      <div class="row">
+      <center><%= link_to 'Create New Account ',new_user_info_path(atm_no: @atm_mach.id ),class:" col-md-4 col-md-offset-2  btn btn-info btn-lg" %></center>
+      </div>
+    <%end%>
+  </div>
+</div>        
+
+
+<!--<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@atm_mach.latitude}%2C#{@atm_mach.longitude}" %> -->
+
+<h3>Nearby locations</h3>
+<ul>
+<% for atm_mach in @atm_mach.nearbys(10) %>
+  <li><%= link_to atm_mach.address, atm_mach %> (<%= atm_mach.distance.round(2) %> miles)</li>
+<% end %>
+</ul>
+<%= link_to 'Edit', edit_atm_mach_path(@atm_mach) %> |
+<%= link_to 'Back', atm_maches_path %>
